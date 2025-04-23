@@ -1,0 +1,44 @@
+set disassembly-flavor intel
+set follow-fork-mode child
+set backtrace past-main on
+set print pretty on
+set history save on
+set confirm off
+
+# Load pwndbg
+source /opt/pwndbg/gdbinit.py
+
+# Customize pwndbg
+set context-code-lines 15
+set context-source-code-lines 15
+set context-sections "regs disasm code stack backtrace"
+
+# Define useful functions
+define xinfo
+  info proc mappings
+end
+document xinfo
+  Print memory mappings for the current process
+end
+
+define ropgadget
+  shell ROPgadget --binary $arg0
+end
+document ropgadget
+  Find ROP gadgets in a binary using ROPgadget
+  Usage: ropgadget binary_path
+end
+
+define checksec
+  shell checksec --file=$arg0
+end
+document checksec
+  Check security features of a binary
+  Usage: checksec binary_path
+end
+
+# Hook for binary load
+define hook-file
+  echo Loading binary...\n
+  checksec $arg0
+end

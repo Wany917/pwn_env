@@ -1,0 +1,42 @@
+syntax on
+set number
+set relativenumber
+set autoindent
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set smarttab
+set hlsearch
+set incsearch
+set ignorecase
+set smartcase
+set showcmd
+set showmatch
+set showmode
+set history=1000
+set wildmenu
+set wildmode=list:longest
+set backspace=indent,eol,start
+set ruler
+set laststatus=2
+set encoding=utf8
+set fileformats=unix,dos,mac
+set background=dark
+set title
+
+" Enable specific settings for Python files
+autocmd FileType python setlocal tabstop=4 shiftwidth=4 expandtab
+
+" Enable specific settings for C/C++ files
+autocmd FileType c,cpp setlocal tabstop=2 shiftwidth=2 expandtab
+
+" Color 80th column for better code formatting
+set colorcolumn=80
+highlight ColorColumn ctermbg=235 guibg=#2c2d27
+
+" Highlight trailing whitespace
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/

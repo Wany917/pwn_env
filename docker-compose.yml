@@ -1,0 +1,27 @@
+services:
+  pwn_env:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    container_name: pwn_env
+    security_opt:
+      - seccomp:unconfined  # Needed for debugging with gdb
+    cap_add:
+      - SYS_PTRACE  # Required for debugging
+    volumes:
+      - ./exercises:/pwn/exercises
+      - ./tools:/pwn/tools
+      - ./scripts:/pwn/scripts
+    ports:
+      - "1337:1337"  # Common port for pwn challenges
+    environment:
+      - DISPLAY=${DISPLAY}  # For GUI applications if needed
+    tty: true
+    stdin_open: true
+    restart: unless-stopped
+    networks:
+      - pwn_network
+
+networks:
+  pwn_network:
+    driver: bridge
